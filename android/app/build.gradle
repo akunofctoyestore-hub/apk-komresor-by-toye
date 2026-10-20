@@ -27,7 +27,7 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
     namespace "com.example.compressor_app"
-    compileSdk 35
+    compileSdk 34
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -45,7 +45,7 @@ android {
     defaultConfig {
         applicationId "com.example.compressor_app"
         minSdk 24
-        targetSdk 35
+        targetSdk 34
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
     }
