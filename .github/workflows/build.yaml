@@ -24,12 +24,13 @@ jobs:
       - name: Setup Android Manifest
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
 
-      - name: Force Android SDK 35
+      - name: Bypass SDK Version Force
         run: |
-          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 35/g' android/app/build.gradle
-          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 35/g' android/app/build.gradle
-          sed -i 's/targetSdk = flutter.targetSdkVersion/targetSdk = 35/g' android/app/build.gradle
-          sed -i 's/targetSdkVersion flutter.targetSdkVersion/targetSdkVersion 35/g' android/app/build.gradle
+          echo "android { compileSdkVersion 35 }" >> android/app/build.gradle
+          sed -i 's/flutter.compileSdkVersion/35/g' android/app/build.gradle
+          sed -i 's/flutter.targetSdkVersion/35/g' android/app/build.gradle
+          sed -i 's/compileSdkVersion 34/compileSdkVersion 35/g' android/app/build.gradle
+          sed -i 's/compileSdk 34/compileSdk 35/g' android/app/build.gradle
         
       - name: Install Dependencies
         run: flutter pub get
@@ -41,4 +42,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: app-release-apk
-          path: build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk#
