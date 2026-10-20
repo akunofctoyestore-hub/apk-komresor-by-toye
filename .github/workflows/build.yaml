@@ -13,9 +13,10 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
           
-      - uses: subosito/flutter-action@v2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.19.0'
+          flutter-version: '3.22.0'
           channel: 'stable'
           
       - name: Generate Android Folder
@@ -24,13 +25,8 @@ jobs:
       - name: Setup Android Manifest
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
 
-      - name: Patch SDK & MinSdk
-        run: |
-          sed -i 's/flutter.compileSdkVersion/35/g' android/app/build.gradle
-          sed -i 's/flutter.targetSdkVersion/35/g' android/app/build.gradle
-          sed -i 's/compileSdkVersion 34/compileSdkVersion 35/g' android/app/build.gradle
-          sed -i 's/flutter.minSdkVersion/24/g' android/app/build.gradle
-          sed -i 's/minSdkVersion 21/minSdkVersion 24/g' android/app/build.gradle
+      - name: Patch Min SDK
+        run: sed -i 's/flutter.minSdkVersion/24/g' android/app/build.gradle
         
       - name: Install Dependencies
         run: flutter pub get
