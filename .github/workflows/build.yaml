@@ -25,10 +25,18 @@ jobs:
       - name: Setup Android Manifest
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
 
-      - name: Patch Kotlin & Min SDK
+      - name: Patch Gradle Kotlin
         run: |
-          sed -i 's/flutter.minSdkVersion/24/g' android/app/build.gradle
-          sed -i 's/ext.kotlin_version = .*/ext.kotlin_version = "1.9.22"/g' android/build.gradle
+          echo 'buildscript {' > android/build.gradle
+          echo '    ext.kotlin_version = "1.9.22"' >> android/build.gradle
+          echo '    repositories { google(); mavenCentral() }' >> android/build.gradle
+          echo '    dependencies { classpath "com.android.tools.build:gradle:8.1.0"; classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" }' >> android/build.gradle
+          echo '}' >> android/build.gradle
+          echo 'allprojects { repositories { google(); mavenCentral() } }' >> android/build.gradle
+          echo 'rootProject.buildDir = "../build"' >> android/build.gradle
+          echo 'subprojects { project.buildDir = "${rootProject.buildDir}/${project.name}" }' >> android/build.gradle
+          echo 'subprojects { project.evaluationDependsOn(":app") }' >> android/build.gradle
+          echo 'tasks.register("clean", Delete) { delete rootProject.buildDir }' >> android/build.gradle
         
       - name: Install Dependencies
         run: flutter pub get
