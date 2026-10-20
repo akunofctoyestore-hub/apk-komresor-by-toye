@@ -24,13 +24,13 @@ jobs:
       - name: Setup Android Manifest
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
 
-      - name: Bypass SDK Version Force
+      - name: Patch SDK & MinSdk
         run: |
-          echo "android { compileSdkVersion 35 }" >> android/app/build.gradle
           sed -i 's/flutter.compileSdkVersion/35/g' android/app/build.gradle
           sed -i 's/flutter.targetSdkVersion/35/g' android/app/build.gradle
           sed -i 's/compileSdkVersion 34/compileSdkVersion 35/g' android/app/build.gradle
-          sed -i 's/compileSdk 34/compileSdk 35/g' android/app/build.gradle
+          sed -i 's/flutter.minSdkVersion/24/g' android/app/build.gradle
+          sed -i 's/minSdkVersion 21/minSdkVersion 24/g' android/app/build.gradle
         
       - name: Install Dependencies
         run: flutter pub get
