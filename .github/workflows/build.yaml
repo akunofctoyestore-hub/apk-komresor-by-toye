@@ -23,6 +23,13 @@ jobs:
         
       - name: Setup Android Manifest
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
+
+      - name: Force Android SDK 35
+        run: |
+          sed -i 's/compileSdk = flutter.compileSdkVersion/compileSdk = 35/g' android/app/build.gradle
+          sed -i 's/compileSdkVersion flutter.compileSdkVersion/compileSdkVersion 35/g' android/app/build.gradle
+          sed -i 's/targetSdk = flutter.targetSdkVersion/targetSdk = 35/g' android/app/build.gradle
+          sed -i 's/targetSdkVersion flutter.targetSdkVersion/targetSdkVersion 35/g' android/app/build.gradle
         
       - name: Install Dependencies
         run: flutter pub get
