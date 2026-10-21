@@ -25,13 +25,6 @@ jobs:
       - name: Setup Android Manifest
         run: cp AndroidManifest.xml android/app/src/main/AndroidManifest.xml
 
-      - name: Patch Kotlin & SDK
-        run: |
-          sed -i "s/ext.kotlin_version = .*/ext.kotlin_version = '1.9.22'/g" android/build.gradle
-          sed -i "s/flutter.compileSdkVersion/34/g" android/app/build.gradle
-          sed -i "s/flutter.minSdkVersion/24/g" android/app/build.gradle
-          sed -i "s/flutter.targetSdkVersion/34/g" android/app/build.gradle
-        
       - name: Install Dependencies
         run: |
           rm -rf ~/.gradle/caches
